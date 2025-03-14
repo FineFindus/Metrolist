@@ -728,14 +728,81 @@ fun HomeScreen(
                 }
 
                 item(key = "home_section_list_$index") {
-                    LazyRow(
-                        contentPadding = WindowInsets.systemBars
-                            .only(WindowInsetsSides.Horizontal)
-                            .asPaddingValues(),
-                        modifier = Modifier.animateItem()
-                    ) {
-                        items(section.items) { item ->
-                            ytGridItem(item)
+                    when (section.sectionType) {
+                        HomePage.SectionType.LIST -> {
+                            LazyRow(
+                                contentPadding = WindowInsets.systemBars
+                                    .only(WindowInsetsSides.Horizontal)
+                                    .asPaddingValues(),
+                                modifier = Modifier.animateItem()
+                            ) {
+                                items(it.items) { item ->
+                                    ytGridItem(item)
+                                }
+                            }
+                        }
+                        HomePage.SectionType.GRID -> {
+                            val lazyGridState = rememberLazyGridState()
+                            val snapLayoutInfoProvider = remember(lazyGridState) {
+                                SnapLayoutInfoProvider(
+                                    lazyGridState = lazyGridState,
+                                    positionInLayout = { layoutSize, itemSize ->
+                                        (layoutSize * horizontalLazyGridItemWidthFactor / 2f - itemSize / 2f)
+                                    }
+                                )
+                            }
+                            LazyHorizontalGrid(
+                                state = lazyGridState,
+                                rows = GridCells.Fixed(4),
+                                flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
+                                contentPadding = WindowInsets.systemBars
+                                    .only(WindowInsetsSides.Horizontal)
+                                    .asPaddingValues(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(ListItemHeight * 4)
+                                    .animateItem()
+                            ) {
+                                items(
+                                    // ensure that always the grids are fully filled (i.e. for items per 'page')
+                                    items = it.items.filterIsInstance<SongItem>().take(it.items.size and -4),
+                                    key = { it.id }
+                                ) { song ->
+                                    YouTubeListItem(
+                                        item = song,
+                                        isSelected = false,
+                                        modifier = Modifier
+                                            .width(horizontalLazyGridItemWidth)
+                                            .combinedClickable(
+                                                onClick = {
+                                                    playerConnection.playQueue(
+                                                        YouTubeQueue.radio(
+                                                            song.toMediaMetadata()
+                                                        )
+                                                    )
+                                                }
+                                            ),
+                                        trailingContent = {
+                                            IconButton(
+                                                onClick = {
+                                                        menuState.show {
+                                                            YouTubeSongMenu(
+                                                                song = song,
+                                                                navController = navController,
+                                                                onDismiss = menuState::dismiss
+                                                            )
+                                                        }
+                                                    }
+                                            ) {
+                                                Icon(
+                                                    painter = painterResource(R.drawable.more_vert),
+                                                    contentDescription = null,
+                                                )
+                                            }
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
