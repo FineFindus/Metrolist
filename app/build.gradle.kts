@@ -13,7 +13,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.metrolist.music"
+        applicationId = "com.metrolist.music.custom"
         minSdk = 26
         targetSdk = 36
         versionCode = 128
