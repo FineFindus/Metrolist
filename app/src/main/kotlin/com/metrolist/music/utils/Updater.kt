@@ -24,7 +24,7 @@ object Updater {
 
     fun getLatestDownloadUrl(): String {
         val baseUrl = "https://github.com/mostafaalagamy/Metrolist/releases/latest/download/"
-        val architecture = BuildConfig.ARCHITECTURE
+        val architecture = ""// BuildConfig.ARCHITECTURE
         return if (architecture == "universal") {
             baseUrl + "Metrolist.apk"
         } else {
