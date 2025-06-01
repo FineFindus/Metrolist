@@ -136,7 +136,7 @@ fun AboutScreen(
                 Spacer(Modifier.width(4.dp))
 
                 Text(
-                    text = BuildConfig.ARCHITECTURE.uppercase(),
+                    text = "", //BuildConfig.ARCHITECTURE.uppercase(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier
