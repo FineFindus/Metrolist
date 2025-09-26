@@ -113,8 +113,6 @@ multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
 #extractor = { module = "com.github.mostafaalagamy:MetrolistExtractor", version.ref = "extractor" }
 extractor = { group = "com.github.TeamNewPipe", name = "NewPipeExtractor", version = "v0.24.8+9" }
 
-kuromoji-ipadic = { module = "com.atilika.kuromoji:kuromoji-ipadic", version.ref = "kuromojiIpadic" }
-
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
