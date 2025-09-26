@@ -264,13 +264,6 @@ class HomeViewModel @Inject constructor(
                             }.onFailure {
                                 reportException(it)
                             }
-
-                            YouTube.library("FEmusic_liked_playlists").completed().onSuccess {
-                                val lists = it.items.filterIsInstance<PlaylistItem>().filterNot { it.id == "SE" }
-                                accountPlaylists.value = lists
-                            }.onFailure {
-                                reportException(it)
-                            }
                         }
                     } finally {
                         isProcessingAccountData = false
