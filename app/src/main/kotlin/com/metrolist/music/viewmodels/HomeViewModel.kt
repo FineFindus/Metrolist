@@ -81,15 +81,6 @@ class HomeViewModel @Inject constructor(
         isLoading.value = true
         val hideExplicit = context.dataStore.get(HideExplicitKey, false)
 
-        if (YouTube.cookie != null) {
-            YouTube.library("FEmusic_liked_playlists").completed().onSuccess {
-                val lists = it.items.filterIsInstance<PlaylistItem>().filterNot { it.id == "SE" }
-                accountPlaylists.value = lists
-            }.onFailure {
-                reportException(it)
-            }
-        }
-
         YouTube.home().onSuccess { page ->
             homePage.value = page.copy(
                 sections = page.sections.map { section ->
