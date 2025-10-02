@@ -736,7 +736,7 @@ fun HomeScreen(
                                     .asPaddingValues(),
                                 modifier = Modifier.animateItem()
                             ) {
-                                items(it.items) { item ->
+                                items(section.items) { item ->
                                     ytGridItem(item)
                                 }
                             }
@@ -765,8 +765,7 @@ fun HomeScreen(
                             ) {
                                 items(
                                     // ensure that always the grids are fully filled (i.e. for items per 'page')
-                                    items = it.items.filterIsInstance<SongItem>().take(it.items.size and -4),
-                                    key = { it.id }
+                                    items = section.items.filterIsInstance<SongItem>().take(section.items.size and -4),
                                 ) { song ->
                                     YouTubeListItem(
                                         item = song,
