@@ -85,16 +85,6 @@ class HomeViewModel @Inject constructor(
             reportException(it)
         }
 
-        YouTube.explore().onSuccess { page ->
-            explorePage.value = page.copy(
-                newReleaseAlbums = page.newReleaseAlbums.filterExplicit(hideExplicit)
-            )
-        }.onFailure {
-            reportException(it)
-        }
-
-        allLocalItems.value = (quickPicks.value.orEmpty() + forgottenFavorites.value.orEmpty() + keepListening.value.orEmpty())
-            .filter { it is Song || it is Album }
         allYtItems.value = similarRecommendations.value?.flatMap { it.items }.orEmpty() +
                 homePage.value?.sections?.flatMap { it.items }.orEmpty()
 
