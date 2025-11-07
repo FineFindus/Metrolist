@@ -19,6 +19,7 @@ import com.metrolist.innertube.models.YouTubeClient.Companion.WEB
 import com.metrolist.innertube.models.YouTubeClient.Companion.WEB_CREATOR
 import com.metrolist.innertube.models.YouTubeClient.Companion.WEB_REMIX
 import com.metrolist.innertube.models.response.PlayerResponse
+import com.metrolist.music.utils.poToken.PoTokenGenerator
 import okhttp3.OkHttpClient
 import timber.log.Timber
 
@@ -28,6 +29,8 @@ object YTPlayerUtils {
     private val httpClient = OkHttpClient.Builder()
         .proxy(YouTube.proxy)
         .build()
+
+    private val poTokenGenerator = PoTokenGenerator()
     /**
      * The main client is used for metadata and initial streams.
      * Do not use other clients for this because it can result in inconsistent metadata.
@@ -93,10 +96,12 @@ object YTPlayerUtils {
                 YouTube.visitorData
             }
         Timber.tag(logTag).d("Session authentication status: ${if (isLoggedIn) "Logged in" else "Not logged in"}")
+        val poToken = sessionId?.let { poTokenGenerator.getWebClientPoToken(videoId, it) }
+
 
         Timber.tag(logTag).d("Attempting to get player response using MAIN_CLIENT: ${MAIN_CLIENT.clientName}")
         val mainPlayerResponse =
-            YouTube.player(videoId, playlistId, MAIN_CLIENT, signatureTimestamp).getOrThrow()
+            YouTube.player(videoId, playlistId, MAIN_CLIENT, signatureTimestamp, poToken).getOrThrow()
         val audioConfig = mainPlayerResponse.playerConfig?.audioConfig
         val videoDetails = mainPlayerResponse.videoDetails
         val playbackTracking = mainPlayerResponse.playbackTracking
@@ -162,6 +167,10 @@ object YTPlayerUtils {
                 if (streamExpiresInSeconds == null) {
                     Timber.tag(logTag).d("Stream expiration time not found")
                     continue
+                }
+
+                if (client.useWebPoTokens && poToken != null) {
+                    streamUrl += "&pot=$poToken";
                 }
 
                 Timber.tag(logTag).d("Stream expires in: $streamExpiresInSeconds seconds")

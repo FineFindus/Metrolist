@@ -20,6 +20,7 @@ data class YouTubeClient(
     val loginSupported: Boolean = false,
     val loginRequired: Boolean = false,
     val useSignatureTimestamp: Boolean = false,
+    val useWebPoTokens: Boolean = false,
     val isEmbedded: Boolean = false,
     // val origin: String? = null,
     // val referer: String? = null,
@@ -57,6 +58,7 @@ data class YouTubeClient(
             clientVersion = "2.20250312.04.00",
             clientId = "1",
             userAgent = USER_AGENT_WEB,
+            useWebPoTokens = true,
         )
 
         val WEB_REMIX = YouTubeClient(
@@ -66,6 +68,7 @@ data class YouTubeClient(
             userAgent = USER_AGENT_WEB,
             loginSupported = true,
             useSignatureTimestamp = true,
+            useWebPoTokens = true,
         )
 
         val WEB_CREATOR = YouTubeClient(
@@ -76,6 +79,7 @@ data class YouTubeClient(
             loginSupported = true,
             loginRequired = true,
             useSignatureTimestamp = true,
+            useWebPoTokens = true,
         )
 
         val TVHTML5 = YouTubeClient(
@@ -85,7 +89,8 @@ data class YouTubeClient(
             userAgent = "Mozilla/5.0(SMART-TV; Linux; Tizen 4.0.0.2) AppleWebkit/605.1.15 (KHTML, like Gecko) SamsungBrowser/9.2 TV Safari/605.1.15",
             loginSupported = true,
             loginRequired = true,
-            useSignatureTimestamp = true
+            useSignatureTimestamp = true,
+            useWebPoTokens = true,
         )
 
         val TVHTML5_SIMPLY_EMBEDDED_PLAYER = YouTubeClient(

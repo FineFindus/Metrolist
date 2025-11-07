@@ -142,6 +142,7 @@ class InnerTube {
         videoId: String,
         playlistId: String?,
         signatureTimestamp: Int?,
+        webPlayerPot: String?
     ) = httpClient.post("player") {
         ytClient(client, setLogin = true)
         setBody(
@@ -164,6 +165,9 @@ class InnerTube {
                         )
                     )
                 } else null,
+                serviceIntegrityDimensions = if (client.useWebPoTokens && webPlayerPot != null) {
+                    PlayerBody.ServiceIntegrityDimensions(webPlayerPot)
+                } else null
             )
         )
     }
