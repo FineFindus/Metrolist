@@ -30,6 +30,7 @@ import com.google.android.gms.cast.framework.CastContext
 import com.metrolist.music.LocalPlayerConnection
 import com.metrolist.music.R
 import com.metrolist.music.constants.EnableGoogleCastKey
+import com.metrolist.music.playback.CastConnectionHandler
 import com.metrolist.music.utils.rememberPreference
 import timber.log.Timber
 
@@ -57,7 +58,7 @@ fun CastButton(
     )
     
     // Get cast state from service
-    val castHandler = playerConnection?.service?.castConnectionHandler
+    val castHandler: CastConnectionHandler? = null
     val isCasting by castHandler?.isCasting?.collectAsState() ?: remember { mutableStateOf(false) }
     val isConnecting by castHandler?.isConnecting?.collectAsState() ?: remember { mutableStateOf(false) }
     val castDeviceName by castHandler?.castDeviceName?.collectAsState() ?: remember { mutableStateOf(null) }
@@ -149,7 +150,6 @@ fun CastButton(
                             isConnecting = isConnecting,
                             currentlyConnectedRoute = currentRoute,
                             onRouteSelected = { route ->
-                                castHandler?.connectToRoute(route)
                                 menuState.dismiss()
                             },
                             onDisconnect = {
