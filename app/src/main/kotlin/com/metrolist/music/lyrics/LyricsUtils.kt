@@ -1,8 +1,6 @@
 package com.metrolist.music.lyrics
 
 import android.text.format.DateUtils
-import com.github.promeg.pinyinhelper.Pinyin
-import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
